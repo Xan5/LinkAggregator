@@ -1,8 +1,58 @@
-﻿@{
+﻿@model LinkAggregator.Helpers.PaginatedList<LinkAggregator.Models.Link>
+
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string shortUrl;
+            if(item.Url.Length <= 25)
+                shortUrl = item.Url;
+            else
+                shortUrl = item.Url.Substring(0,25) + "...";
+            
+            string points = item.Rating == 1 ? "point" : "points";
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                    <br />
+                    <a href=@Html.DisplayFor(modelItem => item.Url)>
+                        @shortUrl
+                    </a>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Rating) @points, added
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    <a asp-controller="Home" asp-action="Plus" asp-route-id="@item.LinkId">Plus</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
