@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
-@model LinkAggregator.Helpers.PaginatedList<LinkAggregator.Resources.LinkResource>
+@model LinkAggregator.Helpers.PaginatedList<LinkAggregator.Models.Link>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -8,6 +8,9 @@
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
+
+<div class="text-center">@TempData["Message"]</div>
+
 <div class="text-center">
     <a asp-action="Index"
        asp-route-pageNumber="@(Model.PageIndex - 1)"
@@ -48,21 +51,10 @@
                         @Html.DisplayFor(modelItem => item.CreationDate)
                     </div>
                 </td>
-                <td>
-                    @if (item.PlusButtonVisibility)
-                    {
-                        <div class="text-center align-middle">
-                            <a icon="" asp-area="" asp-controller="Home" asp-action="Plus" asp-route-linkId="@item.LinkId">
-                                <img src="~/more.png" asp-append-version="true">
-                            </a>
-                        </div>
-                    }
-                </td>
             </tr>
         }
     </tbody>
 </table>
-<hr />
 <div class="text-center">
     <a asp-action="Index"
        asp-route-pageNumber="@(Model.PageIndex - 1)"

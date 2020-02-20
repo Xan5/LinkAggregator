@@ -46,7 +46,7 @@ namespace LinkAggregator.Helpers
                     links.Add(new Link
                     {
                         Title = "Title" + i.ToString(),
-                        CreationDate = DateTime.Now.AddMinutes(-i * 36),
+                        CreationDate = DateTime.UtcNow.AddMinutes(-i * 36),
                         Rating = i,
                         Url = "www.numbers.com/" + i.ToString(),
                         UserId = i % 2 == 0 ? users[0].Id : users[1].Id

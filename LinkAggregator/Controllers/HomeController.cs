@@ -47,6 +47,7 @@ namespace LinkAggregator.Controllers
 
         [Authorize]
         [HttpGet("{linkId:int}")]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Plus(int linkId)
         {
             var link = await this._context.Links.FirstOrDefaultAsync(x => x.LinkId == linkId);
@@ -55,22 +56,17 @@ namespace LinkAggregator.Controllers
                 link.Rating++;
                 var loggedUser = await this._context.Users.Include(x=>x.Links).Include(x=>x.Pluses)
                     .FirstOrDefaultAsync(x => x.UserName == HttpContext.User.Identity.Name);
-                if (loggedUser == null)
-                    return NotFound();
-                if(loggedUser.Links.Exists(x => x.LinkId == linkId) || loggedUser.Pluses.Exists(x => x.LinkId == linkId))
+                if(loggedUser != null && !loggedUser.Links.Exists(x => x.LinkId == linkId) && !loggedUser.Pluses.Exists(x => x.LinkId == linkId))
                 {
-                    return BadRequest();
+                    this._context.Pluses.Add(new Plus()
+                    {
+                        LinkId = linkId,
+                        UserId = loggedUser.Id
+                    });
+                    await this._context.SaveChangesAsync();
                 }
-                this._context.Pluses.Add(new Plus()
-                {
-                    LinkId = linkId,
-                    UserId = loggedUser.Id
-                });
-                await this._context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            else
-                return NotFound();
+            return RedirectToAction("Index");
         }
     }
 }

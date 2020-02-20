@@ -79,6 +79,10 @@ body {
     padding-bottom: -1px;
 }
 
+.table td {
+    border-bottom: 1px solid #dee2e6;
+}
+
 .custom-row {
     height: 89px;
 }
@@ -99,4 +103,8 @@ body {
     width : 100px;
     margin-bottom : 10px;
     margin-top : 10px;
+}
+
+.border-fix {
+    border: none;
 }
