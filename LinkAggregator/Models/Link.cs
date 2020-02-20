@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LinkAggregator.Models
 {
@@ -9,6 +10,9 @@ namespace LinkAggregator.Models
         public string Url { get; set; }
         public int Rating { get; set; }
         public DateTime CreationDate { get; set; }
-        public string UserID { get; set; }
+
+        public string UserId { get; set; }
+        public User User { get; set; }
+        public List<Plus> Pluses { get; set; }
     }
 }

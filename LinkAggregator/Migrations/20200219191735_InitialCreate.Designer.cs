@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LinkAggregator.Data.Migrations
+namespace LinkAggregator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200218185421_FixLinkUserIDProperty")]
-    partial class FixLinkUserIDProperty
+    [Migration("20200219191735_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -40,12 +40,12 @@ namespace LinkAggregator.Data.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LinkId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Links");
                 });
@@ -60,15 +60,12 @@ namespace LinkAggregator.Data.Migrations
                     b.Property<int>("LinkId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PlusId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Pluses");
                 });
@@ -275,16 +272,16 @@ namespace LinkAggregator.Data.Migrations
 
             modelBuilder.Entity("LinkAggregator.Models.Link", b =>
                 {
-                    b.HasOne("LinkAggregator.Models.User", null)
+                    b.HasOne("LinkAggregator.Models.User", "User")
                         .WithMany("Links")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("LinkAggregator.Models.Plus", b =>
                 {
-                    b.HasOne("LinkAggregator.Models.User", null)
+                    b.HasOne("LinkAggregator.Models.User", "User")
                         .WithMany("Pluses")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

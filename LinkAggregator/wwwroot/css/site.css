@@ -79,15 +79,24 @@ body {
     padding-bottom: -1px;
 }
 
-.cell {
-    padding: 5px;
-    border-bottom: 1px solid rgb(221, 221, 221);
-    border-right: 1px solid rgb(221, 221, 221);
-    text-align: center;
-    list-style-type: none;
-    float: left;
-    height: 30px;
-    width: 50%;
-    align-content: center;
-    color: aqua;
+.custom-row {
+    height: 89px;
+}
+
+.t1 {
+    font-size: 16px;
+}
+
+.t2 {
+    font-size: 14px;
+}
+
+.t3{
+    font-size: 10px;
+}
+
+.custom-button{
+    width : 100px;
+    margin-bottom : 10px;
+    margin-top : 10px;
 }

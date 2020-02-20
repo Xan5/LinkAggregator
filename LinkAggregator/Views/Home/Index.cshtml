@@ -1,58 +1,76 @@
-﻿@model LinkAggregator.Helpers.PaginatedList<LinkAggregator.Models.Link>
+﻿@using Microsoft.AspNetCore.Http
+@model LinkAggregator.Helpers.PaginatedList<LinkAggregator.Resources.LinkResource>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
+<div class="text-center">
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
-   class="btn btn-default @prevDisabled">
+   class="btn btn-primary custom-button @prevDisabled">
     Previous
 </a>
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
+   class="btn btn-primary custom-button @nextDisabled">
     Next
 </a>
+</div>
 <table class="table">
     <tbody>
         @foreach (var item in Model)
         {
             string shortUrl;
-            if(item.Url.Length <= 25)
+            if (item.Url.Length <= 25)
                 shortUrl = item.Url;
             else
-                shortUrl = item.Url.Substring(0,25) + "...";
-            
+                shortUrl = item.Url.Substring(0, 25) + "...";
+
+            string url = item.Url;
+            if (!item.Url.StartsWith("http"))
+                url = "https://" + url;
+
             string points = item.Rating == 1 ? "point" : "points";
-            <tr>
+            <tr class="custom-row">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                    <br />
-                    <a href=@Html.DisplayFor(modelItem => item.Url)>
-                        @shortUrl
-                    </a>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.Rating) @points, added
-                    @Html.DisplayFor(modelItem => item.CreationDate)
+                    <div class="t1">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </div>
+                    <div class="t2">
+                        <a href=@url>@shortUrl</a>
+                    </div>
+                    <div class="t3">
+                        @Html.DisplayFor(modelItem => item.Rating) @points, added
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </div>
                 </td>
                 <td>
-                    <a asp-controller="Home" asp-action="Plus" asp-route-id="@item.LinkId">Plus</a>
-                </td>
+                    @if (item.PlusButtonVisibility)
+                    {
+                    <div class="text-center align-middle">
+                        <a icon="" asp-area="" asp-controller="Home" asp-action="Plus" asp-route-linkId="@item.LinkId">
+                            <img src="~/more.png" asp-append-version="true">
+                        </a>
+                    </div>
+                    }
+                    </td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="Index"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<div class="text-center">
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-primary custom-button @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-primary custom-button @nextDisabled">
+        Next
+    </a>
+</div>

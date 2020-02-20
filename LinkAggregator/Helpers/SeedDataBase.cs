@@ -49,7 +49,7 @@ namespace LinkAggregator.Helpers
                         CreationDate = DateTime.Now.AddMinutes(-i * 36),
                         Rating = i,
                         Url = "www.numbers.com/" + i.ToString(),
-                        UserID = i % 2 == 0 ? users[0].Id : users[1].Id
+                        UserId = i % 2 == 0 ? users[0].Id : users[1].Id
                     });
                 }
 

@@ -8,8 +8,8 @@ namespace LinkAggregator.Models
 {
     public class User : IdentityUser
     {
-        public virtual ICollection<Link> Links { get; set; }
-        public virtual ICollection<Plus> Pluses { get; set; }
+        public List<Link> Links { get; set; }
+        public List<Plus> Pluses { get; set; }
 
         public User()
         {
